@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lista de Contatos</title>
+  <style>
+    /* Estilos CSS para a lista de contatos */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      text-align: center;
+    }
+    
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    li {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .status {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-left: 10px;
+    }
+    
+    .status.active {
+      background-color: green;
+    }
+    
+    .status.inactive {
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Lista de Contatos</h1>
+    <ul id="contacts-list"></ul>
+  </div>
+
+  <script>
+    // JavaScript para buscar os dados dos contatos e exibi-los na lista
+    document.addEventListener("DOMContentLoaded", function() {
+      // Recupera o token do localStorage
+      const token = localStorage.getItem("token");
+
+      // Verifica se o token existe
+      if (!token) {
+        console.error("Token não encontrado!");
+        return;
+      }
+
+      // Faz uma requisição GET para obter a lista de contatos
+      fetch("http://localhost:3000/contact/list", {
+        headers: {
+          "Authorization": token
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Obtém a referência da lista de contatos
+        const contactsList = document.getElementById("contacts-list");
+
+        // Itera sobre os contatos e cria elementos HTML para exibi-los na lista
+        data.forEach(contact => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <div>
+              <strong>${contact.name}</strong>
+              <br>
+              Email: ${contact.email}
+              <br>
+              Telefone 1: ${contact.phone1}
+              <br>
+              Telefone 2: ${contact.phone2}
+              <br>
+              Instagram: ${contact.instagram}
+              <br>
+              LinkedIn: ${contact.linkedin}
+            </div>
+            <div class="status ${contact.status ? 'active' : 'inactive'}"></div>
+          `;
+          contactsList.appendChild(li);
+        });
+      })
+      .catch(error => console.error(error));
+    });
+  </script>
+</body>
+</html>

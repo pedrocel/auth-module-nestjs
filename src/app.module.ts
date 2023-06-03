@@ -7,6 +7,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { User } from './user/user.entity';
+import { Contact } from './contact/contact.entity';
+import { ContactController } from './contact/contact.controller';
+import { ContactService } from './contact/contact.service';
 
 @Module({
   imports: [
@@ -15,14 +18,13 @@ import { User } from './user/user.entity';
       host: '127.0.0.1',
       port: 3306,
       username: 'root',
-      password: 'pedila8486',
       database: 'nest_users',
       autoLoadEntities: true,
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Contact]),
   ],
-  controllers: [AppController, UserController, AuthController],
-  providers: [AppService, UserService, AuthService],
+  controllers: [AppController, UserController, AuthController, ContactController],
+  providers: [AppService, UserService, AuthService, ContactService],
 })
 export class AppModule {}

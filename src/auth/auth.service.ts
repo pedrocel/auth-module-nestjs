@@ -13,11 +13,11 @@ export class AuthService {
   ) {}
 
   async login(loginDto: LoginDto) {
-    const { username, password } = loginDto;
-    const user = await this.userRepository.findOne({ where: { username } });
+    const { email, password } = loginDto;
+    const user = await this.userRepository.findOne({ where: { email } });
 
     if (!user || user.password !== password) {
-      throw new Error('Invalid username or password');
+      throw new Error('Invalid email or password');
     }
 
     const token = this.generateToken(user.id);

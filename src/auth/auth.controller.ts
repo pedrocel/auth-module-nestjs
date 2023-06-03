@@ -10,9 +10,5 @@ export class AuthController {
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
-
-  @Get('users')
-  getUsers(@Headers('authorization') token: string) {
-    return this.authService.getUsers(token);
-  }
+  
 }
