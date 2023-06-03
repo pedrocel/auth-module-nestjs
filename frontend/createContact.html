@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Criar Novo Contato</title>
+  <style>
+    /* Estilos CSS para o formulário de criação de contato */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      text-align: center;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 5px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Criar Novo Contato</h1>
+    <form id="contact-form">
+      <label for="name">Nome:</label>
+      <input type="text" id="name" required>
+      
+      <label for="email">Email:</label>
+      <input type="email" id="email" required>
+      
+      <label for="phone1">Telefone 1:</label>
+      <input type="tel" id="phone1" required>
+      
+      <label for="phone2">Telefone 2:</label>
+      <input type="tel" id="phone2">
+      
+      <label for="instagram">Instagram:</label>
+      <input type="text" id="instagram">
+      
+      <label for="linkedin">LinkedIn:</label>
+      <input type="text" id="linkedin">
+      
+      <button type="submit">Criar Contato</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("contact-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const phone1 = document.getElementById("phone1").value;
+      const phone2 = document.getElementById("phone2").value;
+      const instagram = document.getElementById("instagram").value;
+      const linkedin = document.getElementById("linkedin").value;
+
+      // Cria o objeto com os dados do novo contato
+      const contactData = {
+        name: name,
+        email: email,
+        phone1: phone1,
+        phone2: phone2,
+        instagram: instagram,
+        linkedin: linkedin
+      };
+
+      // Recupera o token do localStorage
+      const token = localStorage.getItem("token");
+
+      // Faz a requisição de criação de contato
+      fetch("http://localhost:3000/contact/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token
+        },
+        body: JSON.stringify(contactData)
+      })
+        .then(response => {
+          if (response.ok) {
+            alert("Contato criado com sucesso!");
+            // Redireciona para a página desejada após a criação do contato
+            window.location.href = "contacts.html";
+          } else {
+            throw new Error("Erro ao criar contato.");
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          alert("Erro ao criar contato. Verifique os dados e tente novamente.");
+        });
+    });
+  </script>
+</body>
+</html>
