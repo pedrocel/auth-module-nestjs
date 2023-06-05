@@ -11,7 +11,7 @@
     }
     
     .container {
-      max-width: 800px;
+      max-width: 1200px;
       margin: 20px auto;
       padding: 20px;
       border: 1px solid #ccc;
@@ -23,19 +23,46 @@
       text-align: center;
     }
     
-    ul {
-      list-style: none;
-      padding: 0;
+    table {
+      width: 100%;
+      border-collapse: collapse;
     }
     
-    li {
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
+    th, td {
       padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+    
+    th {
+      background-color: #f2f2f2;
+      text-align: left;
+    }
+    
+    .edit-button, .view-button, .delete-button {
+      padding: 5px 10px;
       border-radius: 5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .edit-button {
+      background-color: #4CAF50;
+      color: #fff;
+    }
+    
+    .view-button {
+      background-color: #2196F3;
+      color: #fff;
+    }
+    
+    .delete-button {
+      background-color: #F44336;
+      color: #fff;
+    }
+    
+    .edit-button:hover, .view-button:hover, .delete-button:hover {
+      background-color: #555;
     }
     
     .status {
@@ -57,11 +84,25 @@
 <body>
   <div class="container">
     <h1>Lista de Contatos</h1>
-    <ul id="contacts-list"></ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Telefone 1</th>
+          <th>Telefone 2</th>
+          <th>Instagram</th>
+          <th>LinkedIn</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="contacts-list"></tbody>
+    </table>
   </div>
 
   <script>
-    // JavaScript para buscar os dados dos contatos e exibi-los na lista
+    // JavaScript para buscar os dados dos contatos e exibi-los na tabela
     document.addEventListener("DOMContentLoaded", function() {
       // Recupera o token do localStorage
       const token = localStorage.getItem("token");
@@ -80,29 +121,27 @@
       })
       .then(response => response.json())
       .then(data => {
-        // Obtém a referência da lista de contatos
+        // Obtém a referência da tabela de contatos
         const contactsList = document.getElementById("contacts-list");
 
-        // Itera sobre os contatos e cria elementos HTML para exibi-los na lista
+        // Itera sobre os contatos e cria elementos HTML para exibi-los na tabela
         data.forEach(contact => {
-          const li = document.createElement("li");
-          li.innerHTML = `
-            <div>
-              <strong>${contact.name}</strong>
-              <br>
-              Email: ${contact.email}
-              <br>
-              Telefone 1: ${contact.phone1}
-              <br>
-              Telefone 2: ${contact.phone2}
-              <br>
-              Instagram: ${contact.instagram}
-              <br>
-              LinkedIn: ${contact.linkedin}
-            </div>
-            <div class="status ${contact.status ? 'active' : 'inactive'}"></div>
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${contact.name}</td>
+            <td>${contact.email}</td>
+            <td>${contact.phone1}</td>
+            <td>${contact.phone2}</td>
+            <td>${contact.instagram}</td>
+            <td>${contact.linkedin}</td>
+            <td><div class="status ${contact.status ? 'active' : 'inactive'}"></div></td>
+            <td>
+              <a class="edit-button">Editar</a>
+              <a class="view-button">Visualizar</a>
+              <a class="delete-button">Excluir</a>
+            </td>
           `;
-          contactsList.appendChild(li);
+          contactsList.appendChild(tr);
         });
       })
       .catch(error => console.error(error));
