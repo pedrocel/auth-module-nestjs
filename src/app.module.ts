@@ -10,6 +10,9 @@ import { User } from './user/user.entity';
 import { Contact } from './contact/contact.entity';
 import { ContactController } from './contact/contact.controller';
 import { ContactService } from './contact/contact.service';
+import { Movement } from './wallet/movement/movement.entity';
+import { MovementController } from './wallet/movement/movement.controller';
+import { MovementService } from './wallet/movement/movement.service';
 
 @Module({
   imports: [
@@ -22,9 +25,9 @@ import { ContactService } from './contact/contact.service';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([User, Contact]),
+    TypeOrmModule.forFeature([User, Contact, Movement]),
   ],
-  controllers: [AppController, UserController, AuthController, ContactController],
-  providers: [AppService, UserService, AuthService, ContactService],
+  controllers: [AppController, UserController, AuthController, ContactController, MovementController],
+  providers: [AppService, UserService, AuthService, ContactService, MovementService],
 })
 export class AppModule {}
