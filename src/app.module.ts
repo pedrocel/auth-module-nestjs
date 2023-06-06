@@ -13,6 +13,9 @@ import { ContactService } from './contact/contact.service';
 import { Movement } from './wallet/movement/movement.entity';
 import { MovementController } from './wallet/movement/movement.controller';
 import { MovementService } from './wallet/movement/movement.service';
+import { AddressController } from './user/address/address.controller';
+import { AddressService } from './user/address/address.service';
+import { Address } from './user/address/address.entity';
 
 @Module({
   imports: [
@@ -25,9 +28,9 @@ import { MovementService } from './wallet/movement/movement.service';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([User, Contact, Movement]),
+    TypeOrmModule.forFeature([User, Contact, Movement, Address]),
   ],
-  controllers: [AppController, UserController, AuthController, ContactController, MovementController],
-  providers: [AppService, UserService, AuthService, ContactService, MovementService],
+  controllers: [AppController, UserController, AuthController, ContactController, MovementController, AddressController],
+  providers: [AppService, UserService, AuthService, ContactService, MovementService, AddressService],
 })
 export class AppModule {}
